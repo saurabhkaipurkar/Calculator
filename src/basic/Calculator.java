@@ -17,7 +17,8 @@ public class Calculator extends JFrame implements ActionListener {
     private JButton plusMinusButton;
     private JButton mcButton, mrButton, mPlusButton, mMinusButton, msButton, mvButton;
 
-    private double num1 = 0, num2 = 0, result = 0;
+    private double num1 = 0;
+    private double result = 0;
     private char operator;
 
     public Calculator() {
@@ -55,7 +56,7 @@ public class Calculator extends JFrame implements ActionListener {
         equalButton = new JButton("=");
         clearButton = new JButton("C");
         percentButton = new JButton("%");
-        ceButton = new JButton("CE");
+        ceButton = new JButton("C");
         backspaceButton = new JButton("⌫"); // ⌫
         sqrtButton = new JButton("√"); // √
         squareButton = new JButton("x²");
@@ -174,6 +175,7 @@ public class Calculator extends JFrame implements ActionListener {
             }
         }
 
+        double num2 = 0;
         if (src == clearButton) {
             textField.setText("");
             num1 = num2 = result = 0;
@@ -205,7 +207,12 @@ public class Calculator extends JFrame implements ActionListener {
                     case '+': result = num1 + num2; break;
                     case '-': result = num1 - num2; break;
                     case '*': result = num1 * num2; break;
-                    case '/': result = num2 != 0 ? num1 / num2 : 0; break;
+                    case '/':
+                        if (num2 != 0){
+                            result = num1 / num2;
+                        }else {
+                            textField.setText("Cannot divide by zero");
+                        }
                 }
                 textField.setText(String.valueOf(result));
                 num1 = result;
@@ -258,3 +265,4 @@ public class Calculator extends JFrame implements ActionListener {
         new Calculator();
     }
 }
+
