@@ -84,59 +84,78 @@ public class Calculator extends JFrame implements ActionListener {
         for (JButton button : numberButtons) {
             button.setFont(new Font("Arial", Font.PLAIN, 18));
         }
+
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                // Allow digits, backspace, delete, and decimal point
+                if (!Character.isDigit(c) && c != '.' && c != '\b') {
+                    e.consume(); // Ignore other input
+                }
+
+                // Prevent multiple decimals
+                if (c == '.' && textField.getText().contains(".")) {
+                    e.consume();
+                }
+            }
+        });
     }
 
     private void setLayout() {
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
         topPanel.add(textField, BorderLayout.CENTER);
         panel.add(topPanel, BorderLayout.NORTH);
 
-        // First row (memory)
+        // 6 rows × 4 columns
+        bottomPanel.setLayout(new GridLayout(7, 4, 10, 10));
+
+        // Row 1 (MC, MR, M+, M-, MS, Mv) – includes all memory buttons
         bottomPanel.add(mcButton);
         bottomPanel.add(mrButton);
         bottomPanel.add(mPlusButton);
         bottomPanel.add(mMinusButton);
 
-        // Second row
+        // Row 2 (MS, Mv, %, CE, C, ⌫)
         bottomPanel.add(msButton);
         bottomPanel.add(mvButton);
         bottomPanel.add(percentButton);
-        bottomPanel.add(clearButton);
-
-        // Third row
         bottomPanel.add(ceButton);
-        bottomPanel.add(backspaceButton);
-        bottomPanel.add(divButton);
-        bottomPanel.add(mulButton);
 
-        // Fourth row
+        // Row 3 (1/x, x², √, ÷)
+        bottomPanel.add(reciprocalButton);
+        bottomPanel.add(squareButton);
+        bottomPanel.add(sqrtButton);
+        bottomPanel.add(divButton);
+
+        // Row 4 (7, 8, 9, ×)
         bottomPanel.add(numberButtons[7]);
         bottomPanel.add(numberButtons[8]);
         bottomPanel.add(numberButtons[9]);
-        bottomPanel.add(subButton);
+        bottomPanel.add(mulButton);
 
-        // Fifth row
+        // Row 5 (4, 5, 6, -)
         bottomPanel.add(numberButtons[4]);
         bottomPanel.add(numberButtons[5]);
         bottomPanel.add(numberButtons[6]);
-        bottomPanel.add(addButton);
+        bottomPanel.add(subButton);
 
-        // Sixth row
+        // Row 6 (1, 2, 3, +)
         bottomPanel.add(numberButtons[1]);
         bottomPanel.add(numberButtons[2]);
         bottomPanel.add(numberButtons[3]);
-        bottomPanel.add(equalButton);
+        bottomPanel.add(addButton);
 
-        // Last row (0, ., +/-, 1/x)
+        // Row 7 (+/-, 0, ., =)
         bottomPanel.add(plusMinusButton);
         bottomPanel.add(numberButtons[0]);
         bottomPanel.add(decimalButton);
-        bottomPanel.add(reciprocalButton);
+        bottomPanel.add(equalButton);
 
         panel.add(bottomPanel, BorderLayout.CENTER);
         add(panel);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -239,4 +258,3 @@ public class Calculator extends JFrame implements ActionListener {
         new Calculator();
     }
 }
-
